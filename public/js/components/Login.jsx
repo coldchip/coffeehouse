@@ -48,6 +48,9 @@ function LoginPopup(props) {
 			setError(body.message);
 		}).finally(() => {
 			setLoading(false);
+			if(window.vuplex) {
+				window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: "345676543456543"});
+			}
 		});
 	}
 
