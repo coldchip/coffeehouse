@@ -1,0 +1,210 @@
+.chipdrive-body {
+	width: 100%;
+	height: calc(100% - 60px);
+	overflow-y: scroll;
+
+	.label {
+		display: flex;
+		align-items: center;
+		margin: 20px 30px;
+		border-radius: 5px;
+
+		.label-text {
+			font-size: 33px;
+			font-weight: 600;
+			color: $textColor;
+			margin: 0;
+			.label-icon {
+				color: $textColor;
+			}
+		}
+
+		.label-edit {
+			margin: 0 10px;
+			cursor: pointer;
+			color: $textColor;
+		}
+	}
+
+	.breadcrumbs {
+		display: flex;
+		flex-direction: row;
+		margin: 20px 30px;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar { 
+			display: none;
+		}
+
+		.breadcrumb {
+			padding: 5px;
+			margin-right: 10px;
+			border-radius: 5px;
+			background: $breadCrumbColor;
+			color: $textColor;
+			font-weight: 500;
+			cursor: pointer;
+			flex-shrink: 0;
+
+			&.hover {
+				border: 2px solid $chipGreen;
+			}
+		}
+
+		.breadcrumb-seperator {
+			padding: 5px;
+			margin-right: 10px;
+			border-radius: 5px;
+			color: $textColor;
+		}
+	}
+
+	.list-container {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+		grid-gap: 16px;
+		justify-content: center;
+		padding: initial;
+
+		.list-item {
+			position: relative;
+			cursor: pointer;
+			width: 130px;
+			background: none;
+			margin: 10px;
+			padding: 10px;
+			border-radius: 6px;
+			animation: item-animation 0.3s forwards;
+			-webkit-animation: item-animation 0.3s forwards;
+			transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+
+			.item-option-icon {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				font-size: 18px;
+				color: $textColorLight;
+			}
+
+			.list-item-inner {
+				display: flex;
+				flex-direction: column;
+				justify-content: initial;
+				align-items: center;
+				width: 100%;
+
+				.item-icon {
+					color: $textColorLight;
+					font-size: 70px;
+					margin: 10px 0 0 0;
+				}
+
+				.item-icon-image {
+					display: block;
+					width: 70%;
+					border-radius: 8px;
+				}
+
+				.item-label {
+					margin: 20px 0 0 0;
+					width: 100%;
+					text-align: center;
+					font-weight: 600;
+					color: $textColor;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					&:hover {
+						color: $chipGreen;
+						text-decoration: underline;
+					}
+				}
+			}
+
+			&.hover {
+				border: 2px solid $chipGreen;
+			}
+
+			&:hover {
+				background: $hoverColor;
+			}
+		}
+
+		.list-item-selected {
+			background: $hoverColor;
+		}
+
+		.list-item-droppable {
+			transition: transform 0.3s ease-in-out;
+			transform: scale(1.1);
+			border: 2px solid $chipGreen;
+		}
+		.list-item-nondroppable {
+			transition: all 0.3s ease-in-out;
+			opacity: 0.4;
+		}
+	}
+
+	.notice-container {
+		padding: 40px 0;
+		animation: item-animation 0.3s forwards;
+		-webkit-animation: item-animation 0.3s forwards;
+
+
+		.notice-text {
+			text-align: center;
+			font-weight: 600;
+			color: $textColor;
+			font-size: 22px;
+		}
+
+		.notice-icon {
+			text-align: center;
+			display: block;
+			color: $textColor;
+			font-size: 56px;
+			margin: 20px auto;
+		}
+	}
+
+	.error-container {
+		padding: 40px 0;
+
+		.error-text {
+			text-align: center;
+			font-weight: 600;
+			color: $textColorWarning;
+			font-size: 22px;
+		}
+	}
+
+	.upload-round {
+		position: fixed;
+		right: 30px;
+		bottom: 30px;
+		width: 60px;
+		height: 60px;
+		border-radius: 100%;
+		border: none;
+		font-size: 25px;
+		color: #FFFFFF;
+		box-shadow: 0 8px 28px rgb(0 0 0 / 28%);
+		background: $chipGreen;
+	}
+}
+
+@keyframes item-animation {
+	0% {
+		transform: scale(0.90);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
