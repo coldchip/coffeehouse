@@ -68,9 +68,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|tiff)$/i,
-        use: [{
-          loader: "file-loader?name=img.[contenthash].[ext]"
-        }]
+        type: 'asset/resource'
       },
       {
         test: /\.(woff2|woff|ttf|otf|eot)$/i,
