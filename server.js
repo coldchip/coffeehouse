@@ -45,13 +45,36 @@ const db = require("./models");
 const User = db.user;
 const Token = db.token;
 
+/* -------------- MULTIPLEXING ------------- */
+
+// expressjs is the login server that serves web pages
+// websockets is the server that handle player movements
+
+// enables expressjs and websockets to work together on the same port
+// https://en.wikipedia.org/wiki/Port_(computer_networking)
+
 var app = express();
 var server = http.createServer(app);
 gameserver(server);
 
+/* ----------------------------------------- */
+
+
+
+
+/* ------ HTTP COMPRESSION & ENCODING ------ */
+
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/* ----------------------------------------- */
+
+
+
+
+
+
+/* ---------------- LOGGING ---------------- */
 let count = 0;
 
 app.use((req, res, next) =>  {
@@ -62,12 +85,14 @@ app.use((req, res, next) =>  {
 	next();
 });
 
+/* ----------------------------------------- */
+
 app.set('x-powered-by', false);
 
 const port = process.env.PORT || 5001;
 
 (async function() {
-	console.log(chalk.yellow("ChipDrive Server"));
+	console.log(chalk.yellow("Coffeehouse Server"));
 	try {
 		if(!fs.existsSync("database")){
 			fs.mkdirSync("database");
@@ -82,7 +107,7 @@ const port = process.env.PORT || 5001;
 					username: process.env.username
 				},
 				defaults: {
-					firstname: "ChipDrive",
+					firstname: "NYP",
 					lastname: "Admin",
 					username: process.env.username,
 					password: process.env.password,
@@ -90,30 +115,6 @@ const port = process.env.PORT || 5001;
 					quota: 1024 * 1024 * 100
 				}
 			});
-
-			/*
-				users can't delete the root folder
-			*/
-
-			let drives = ["My Drive #1", "My Drive #2", "My Drive #3", "My Drive #4", "My Drive #5"];
-
-			for(let name of drives) {
-				await Node.findOrCreate({
-					where: {
-						id: md5(user[0].id + name),
-						userId: user[0].id
-					},
-					defaults: {
-						type: 2, 
-						name: name, 
-						id: md5(user[0].id + name), 
-						parent: null,
-						size: 0,
-						root: true,
-						userId: user[0].id
-					}
-				});
-			}
 		}
 
 		app.use('/api/v2/sso', ssoRoute);
@@ -130,7 +131,7 @@ const port = process.env.PORT || 5001;
 			if(process.env.NODE_ENV) {
 				console.log("Production Mode is Activated");
 			}
-			console.log(`ChipDrive is running on http://localhost:${port}`);
+			console.log(`CoffeeHouse is running on http://localhost:${port}`);
 		});
 	} catch(e) {
 		console.log(`Unable to start server: ${e.toString()}`);
@@ -138,7 +139,9 @@ const port = process.env.PORT || 5001;
 	}
 })();
 
-var image = ["jpg", "png", "jpeg", "bmp", "h264", "gif", "svg"]
+/* ---------------- QUEUES ---------------- */
+
+// https://www.javatpoint.com/race-condition-in-operating-system#:~:text=The%20Race%20Condition%20usually%20occurs,the%20case%20of%20processes%20also.
 
 async function mainWorker() {
 	if(queue.length("main") > 0) {
@@ -159,3 +162,5 @@ async function loginWorker() {
 
 	setTimeout(loginWorker, 5000);
 }
+
+/* ----------------------------------------- */
