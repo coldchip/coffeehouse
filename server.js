@@ -1,3 +1,26 @@
+/*
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+sorry for using javascript. sorry for using javascript. sorry for using javascript. 
+
+- ryan
+*/
+
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
@@ -8,7 +31,9 @@ const bodyParser = require("body-parser");
 const compression = require('compression');
 const webpack = require("webpack");
 const middleware = require("webpack-dev-middleware");
-require('dotenv').config()
+require('dotenv').config();
+const http = require('http');
+const gameserver = require("./gameserver");
 
 const ssoRoute = require("./routes/sso");
 
@@ -21,6 +46,8 @@ const User = db.user;
 const Token = db.token;
 
 var app = express();
+var server = http.createServer(app);
+gameserver(server);
 
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -99,7 +126,7 @@ const port = process.env.PORT || 5001;
 		mainWorker();
 		loginWorker();
 
-		app.listen(port, () =>  {
+		server.listen(port, () =>  {
 			if(process.env.NODE_ENV) {
 				console.log("Production Mode is Activated");
 			}
