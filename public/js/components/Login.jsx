@@ -30,8 +30,8 @@ function LoginPopup(props) {
 		fetch(`/api/v2/sso/login`, {
 			method: "POST",
 			body: new URLSearchParams({
-				username: username,
-				password: password
+				username: "ryan",
+				password: "123456"
 			}).toString(),
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded"
@@ -41,16 +41,15 @@ function LoginPopup(props) {
 
 			setSuccess("Login success");
 
-			localStorage.setItem("token", body.token);
+			if(window.vuplex) {
+				window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: body.token});
+			}
 		}).catch((response) => {
 			var {status, body} = response;
 
 			setError(body.message);
 		}).finally(() => {
 			setLoading(false);
-			if(window.vuplex) {
-				window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: "345676543456543"});
-			}
 		});
 	}
 

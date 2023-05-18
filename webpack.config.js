@@ -53,7 +53,7 @@ module.exports = {
                     index = Math.floor(index / 62) - 1
                   }
 
-                  return localName;
+                  return prefix;
                 } else {
                   return localName;
                 }

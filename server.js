@@ -101,21 +101,19 @@ const port = process.env.PORT || 5001;
 		await db.sequelize.authenticate();
 		await db.sequelize.sync();
 
-		if(process.env.username && process.env.password) {
-			let user = await User.findOrCreate({
-				where: {
-					username: process.env.username
-				},
-				defaults: {
-					firstname: "NYP",
-					lastname: "Admin",
-					username: process.env.username,
-					password: process.env.password,
-					admin: true,
-					quota: 1024 * 1024 * 100
-				}
-			});
-		}
+		await User.findOrCreate({
+			where: {
+				username: process.env.username
+			},
+			defaults: {
+				firstname: "NYP",
+				lastname: "Admin",
+				username: "ryan",
+				password: "e10adc3949ba59abbe56e057f20f883e",
+				admin: true,
+				quota: 1024 * 1024 * 100
+			}
+		});
 
 		app.use('/api/v2/sso', ssoRoute);
 

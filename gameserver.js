@@ -34,51 +34,57 @@ function GameServer(multiplexer) {
 		client.y = 0;
 		client.z = 0;
 
-		broadcast(server, client, JSON.stringify({
-			"type": "OnSpawn"
-		}));
-
 		client.on('message', (data) => {
-
+			console.log(data.toString());
 			data = JSON.parse(data);
-			data = calibrate(data);
-
-			var x = data.X;
-			var y = data.Y;
-			var z = data.Z;
-			var rx = data.RX;
-			var ry = data.RY;
-			var rz = data.RZ;
-
-			var udx = data.DX;
-			var udy = data.DY;
-			var udz = data.DZ;
-
-			var playerUpdate = false;
-			var dogUpdate = false;
-
-			if(x != client.x || y != client.y || z != client.z) {
-				client.x = x;
-				client.y = y;
-				client.z = z;
-				playerUpdate = true;
+			if(data.Type == "OnAuth") {
+				broadcast(server, client, JSON.stringify({
+					"type": "OnSpawn",
+					"token": data.Token
+				}));
 			}
+			if(data.Type == "OnMove") {
+				data = calibrate(data);
 
-			// chain
+				var x = data.X;
+				var y = data.Y;
+				var z = data.Z;
+				var rx = data.RX;
+				var ry = data.RY;
+				var rz = data.RZ;
 
-			if((dx != udx || dy != udy || dz != udz) && playerUpdate === true) {
-				dx = udx;
-				dy = udy;
-				dz = udz;
-				dogUpdate = true;
+				var udx = data.DX;
+				var udy = data.DY;
+				var udz = data.DZ;
+
+				var playerUpdate = false;
+				var dogUpdate = false;
+
+				if(x != client.x || y != client.y || z != client.z) {
+					client.x = x;
+					client.y = y;
+					client.z = z;
+					playerUpdate = true;
+				}
+
+				// chain
+
+				if((dx != udx || dy != udy || dz != udz) && playerUpdate === true) {
+					dx = udx;
+					dy = udy;
+					dz = udz;
+					dogUpdate = true;
+				}
+
+				broadcast(server, client, {
+					Type: "OnMove",
+					X: x, Y: y, Z: z,
+					RX: rx, RY: ry, RZ: rz,
+					DX: dx, DY: dy, DZ: dz,
+					UpdateDog: dogUpdate,
+					Token: data.Token
+				});
 			}
-
-			broadcast(server, client, {
-				X: x, Y: y, Z: z,
-				RX: rx, RY: ry, RZ: rz,
-				DX: dx, DY: dy, DZ: dz,
-				UpdateDog: dogUpdate
-			});
 		});
 	});
 }
