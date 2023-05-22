@@ -1,9 +1,13 @@
 var { WebSocketServer } = require('ws');
+const db = require("./models");
+const User = db.user;
+const Token = db.token;
 
 class Player {
-	constructor(connection, token) {
+	constructor(connection, token, username) {
 		this.connection = connection;
 		this.token = token;
+		this.username = username;
 	}
 }
 
@@ -62,20 +66,36 @@ function GameServer(multiplexer) {
 			// console.log(data.toString());
 			data = JSON.parse(data);
 			if(data.Type == "OnAuth") {
-				var p = new Player(client, data.Token);
+				
 
-				for(let player of players) {
-					p.connection.send(JSON.stringify({
+				Token.findOne({
+					where: {
+						id: data.Token
+					},
+					include: [{
+						model: User
+					}]
+				}).then((result) => {
+					var username = result.user.username;
+					var p = new Player(client, data.Token, username);
+
+					for(let player of players) {
+						p.connection.send(JSON.stringify({
+							Type: "OnSpawn",
+							Token: player.token,
+							Username: player.username
+						}));
+					}
+
+					players.push(p);
+
+					broadcast(server, client, {
 						Type: "OnSpawn",
-						Token: player.token
-					}));
-				}
-
-				players.push(p);
-
-				broadcast(server, client, {
-					Type: "OnSpawn",
-					Token: p.token
+						Token: p.token,
+						Username: username
+					});
+				}).catch(() => {
+					console.log("hacker detected");
 				});
 			}
 			if(data.Type == "OnMove") {
