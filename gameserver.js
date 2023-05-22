@@ -21,6 +21,14 @@ function broadcast(server, except, data) {
 	});
 }
 
+function removeItemOnce(arr, value) {
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+
 function GameServer(multiplexer) {
 	var px;
 	var py;
@@ -43,7 +51,11 @@ function GameServer(multiplexer) {
 
 		client.on('disconnect', (data) => {
 			console.log('disconnect!');
-			
+			for(let player of players) {
+				if(player.connection == client) {
+					removeItemOnce(players, player);
+				}
+			}
 		});
 
 		client.on('message', (data) => {

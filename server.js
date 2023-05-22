@@ -102,15 +102,18 @@ const port = process.env.PORT || 5001;
 		await db.sequelize.authenticate();
 		await db.sequelize.sync();
 
+		let username = "ryan";
+		let password = "e10adc3949ba59abbe56e057f20f883e";
+
 		await User.findOrCreate({
 			where: {
-				username: process.env.username
+				username: username
 			},
 			defaults: {
 				firstname: "NYP",
 				lastname: "Admin",
-				username: "ryan",
-				password: "e10adc3949ba59abbe56e057f20f883e",
+				username: username,
+				password: password,
 				admin: true,
 				quota: 1024 * 1024 * 100
 			}
