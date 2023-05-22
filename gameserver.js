@@ -1,5 +1,12 @@
 var { WebSocketServer } = require('ws');
 
+class Player {
+	constructor(connection, token) {
+		this.connection = connection;
+		this.token = token;
+	}
+}
+
 function calibrate(data) {
 	data.Y  -= 0.8;
 	data.RY -= 180.0;
@@ -34,16 +41,33 @@ function GameServer(multiplexer) {
 		client.y = 0;
 		client.z = 0;
 
+		client.on('disconnect', (data) => {
+			console.log('disconnect!');
+			
+		});
+
 		client.on('message', (data) => {
-			console.log(data.toString());
+			// console.log(data.toString());
 			data = JSON.parse(data);
 			if(data.Type == "OnAuth") {
-				broadcast(server, client, JSON.stringify({
-					"type": "OnSpawn",
-					"token": data.Token
-				}));
+				var p = new Player(client, data.Token);
+
+				for(let player of players) {
+					p.connection.send(JSON.stringify({
+						Type: "OnSpawn",
+						Token: player.token
+					}));
+				}
+
+				players.push(p);
+
+				broadcast(server, client, {
+					Type: "OnSpawn",
+					Token: p.token
+				});
 			}
 			if(data.Type == "OnMove") {
+				console.log(players);
 				data = calibrate(data);
 
 				var x = data.X;

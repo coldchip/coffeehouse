@@ -9,16 +9,17 @@ import cssf from "./../CSSFormat";
 
 import logo from "./../assets/img/logo.png";
 
-function LoginPopup(props) {
+function RegisterPopup(props) {
 	const [error, setError] = useState(null);
 	const [success, setSuccess] = useState(null);
 	const [loading, setLoading] = useState(false);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 
 	useEffect(() => {
-		document.title = "CoffeeHouse - Login";
+		document.title = "CoffeeHouse - Register";
 	}, []);
 
 	var login = (e) => {
@@ -26,31 +27,37 @@ function LoginPopup(props) {
 
 		setError(null);
 		setSuccess(null);
-		setLoading(true);
-		fetch(`/api/v2/sso/login`, {
-			method: "POST",
-			body: new URLSearchParams({
-				username: username,
-				password: password
-			}).toString(),
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded"
-			}
-		}).then((response) => {
-			var {status, body} = response;
 
-			setSuccess("Login success");
+		if(password === confirmPassword) {
+			setLoading(true);
 
-			if(window.vuplex) {
-				window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: body.token});
-			}
-		}).catch((response) => {
-			var {status, body} = response;
+			fetch(`/api/v2/sso/register`, {
+				method: "POST",
+				body: new URLSearchParams({
+					username: username,
+					password: password
+				}).toString(),
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then((response) => {
+				var {status, body} = response;
 
-			setError(body.message);
-		}).finally(() => {
-			setLoading(false);
-		});
+				setSuccess("Login success");
+
+				if(window.vuplex) {
+					window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: body.token});
+				}
+			}).catch((response) => {
+				var {status, body} = response;
+
+				setError(body.message);
+			}).finally(() => {
+				setLoading(false);
+			});
+		} else {
+			setError("Password doesn't match");
+		}
 	}
 
 	return (
@@ -58,7 +65,7 @@ function LoginPopup(props) {
 			<form className={cssf(css, "login")}>
 				<img src={logo} className={cssf(css, "login-logo")}/>
 
-				<h1 className={cssf(css, "login-title text")}>Log in to your account</h1>
+				<h1 className={cssf(css, "login-title text")}>Register your account</h1>
 				
 				{
 					error && 
@@ -105,15 +112,28 @@ function LoginPopup(props) {
 						Password: 
 					</label>
 				</div>
+
+				<div className={cssf(css, "form-group")}>
+					<input 
+						type="password" 
+						id="password" 
+						className={cssf(css, `login-input text ${confirmPassword.length > 0 && "active"}`)} 
+						value={confirmPassword}
+						onChange={e => setConfirmPassword(e.target.value)} 
+					/>
+					<label for="password" className={cssf(css, "login-label text")}>
+						Confirm Password: 
+					</label>
+				</div>
 				
 				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={login}>
-					<span>Login</span>
+					<span>Register</span>
 				</button>
 
-				<a href="/register" className={cssf(css, "text")}>Register</a>
+				<a href="/login" className={cssf(css, "text")}>Login</a>
 			</form>
 		</div>
 	);
 }
 
-export default LoginPopup;
+export default RegisterPopup;

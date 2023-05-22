@@ -26,6 +26,7 @@ const fs = require('fs');
 const path = require('path');
 const md5 = require('md5');
 const sharp = require('sharp');
+const history = require("connect-history-api-fallback");
 const express = require('express');
 const bodyParser = require("body-parser");
 const compression = require('compression');
@@ -118,6 +119,7 @@ const port = process.env.PORT || 5001;
 		app.use('/api/v2/sso', ssoRoute);
 
 		const compiler = webpack(require("./webpack.config.js"));
+		app.use(history());
 		app.use(middleware(compiler, {
 			writeToDisk: true
 		}));

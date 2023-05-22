@@ -90,8 +90,8 @@ module.exports = {
   },
   output: {
     path: __dirname + '/bin/',
-    filename: 'chipdrive.[contenthash:16].js',
-    chunkFilename: 'chipdrive.[contenthash:16].js',
+    filename: 'coffeehouse.[contenthash:16].js',
+    chunkFilename: 'coffeehouse.[contenthash:16].js',
     publicPath: "/"
   },
   plugins: [
@@ -99,8 +99,8 @@ module.exports = {
       files: 'public/js/**/*.jsx'
     }),
     new MiniCssExtractPlugin({
-      filename: 'chipdrive.[contenthash:16].css',
-      chunkFilename: 'chipdrive.[contenthash:16].css'
+      filename: 'coffeehouse.[contenthash:16].css',
+      chunkFilename: 'coffeehouse.[contenthash:16].css'
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',

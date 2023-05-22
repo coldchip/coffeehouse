@@ -57,6 +57,38 @@ router.post('/login', enqueue("login", async (req, res) => {
 	}
 }));
 
+router.post('/register', enqueue("login", async (req, res) => {
+	res.contentType("application/json");
+	res.set('Cache-Control', 'no-store');
+
+	var username = req.body.username;
+	var password = req.body.password;
+	if(username && password) {
+		try {
+			await User.create({
+				firstname: "LOL",
+				lastname: "Ur dad",
+				username,
+				password: md5(password),
+				admin: 0,
+				quota: 0
+			});
+
+			return res.status(200).json({
+				message: "Success"
+			});
+		} catch(err) {
+			return res.status(500).json({
+				message: "Server Internal Error"
+			});
+		}
+	} else {
+		return res.status(400).json({
+			message: "Username or password is empty"
+		});
+	}
+}));
+
 router.get('/logout', auth, enqueue("main", async (req, res) => {
 	res.contentType("application/json");
 	res.set('Cache-Control', 'no-store');
