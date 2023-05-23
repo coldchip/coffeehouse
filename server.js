@@ -34,7 +34,7 @@ const webpack = require("webpack");
 const middleware = require("webpack-dev-middleware");
 require('dotenv').config();
 const http = require('http');
-const gameserver = require("./gameserver");
+const {GameServer, GameServerRoute} = require("./gameserver");
 
 const ssoRoute = require("./routes/sso");
 
@@ -56,7 +56,7 @@ const Token = db.token;
 
 var app = express();
 var server = http.createServer(app);
-gameserver(server);
+GameServer(server);
 
 /* ----------------------------------------- */
 
@@ -120,6 +120,7 @@ const port = process.env.PORT || 5001;
 		});
 
 		app.use('/api/v2/sso', ssoRoute);
+		app.use('/live', GameServerRoute);
 
 		const compiler = webpack(require("./webpack.config.js"));
 		app.use(history());

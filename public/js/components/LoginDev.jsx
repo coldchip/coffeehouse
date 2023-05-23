@@ -14,14 +14,11 @@ function LoginPopup(props) {
 	const [success, setSuccess] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-
 	useEffect(() => {
 		document.title = "CoffeeHouse - Login";
 	}, []);
 
-	var login = (e) => {
+	var login = (e, username, password) => {
 		e.preventDefault();
 
 		setError(null);
@@ -79,44 +76,29 @@ function LoginPopup(props) {
 						}}></i>
 					</div>
 				}
-				<div className={cssf(css, "form-group")}>
-					<input 
-						type="text" 
-						autocomplete="none"
-						id="username" 
-						className={cssf(css, `login-input text ${username.length > 0 && "active"}`)}
-						value={username}
-						onChange={e => setUsername(e.target.value)} 
-					/>
-					<label for="username" className={cssf(css, "login-label text")}>
-						Username
-					</label>
-				</div>
-
-				<div className={cssf(css, "form-group")}>
-					<input 
-						type="password" 
-						id="password" 
-						className={cssf(css, `login-input text ${password.length > 0 && "active"}`)} 
-						value={password}
-						onChange={e => setPassword(e.target.value)} 
-					/>
-					<label for="password" className={cssf(css, "login-label text")}>
-						Password: 
-					</label>
-				</div>
 				
-				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={login}>
-					<span>Login</span>
+				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={(e) => {
+					login(e, "ryan", "123456");
+				}}>
+					<span>Login as Ryan</span>
+				</button>
+				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={(e) => {
+					login(e, "erik", "123456");
+				}}>
+					<span>Login as Erik</span>
 				</button>
 
-				<hr />
-
-				<a href="/register">
-					<button type="button" className={cssf(css, `login-submit text mt-3`)}>
-						<span>Register</span>
-					</button>
-				</a>
+				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={(e) => {
+					login(e, "keatkean", "123456");
+				}}>
+					<span>Login as Mr. Lee</span>
+				</button>
+				
+				<button type="button" className={cssf(css, `login-submit ${loading ? "submit-loading" : null} text`)} onClick={(e) => {
+					login(e, "ivan", "123456");
+				}}>
+					<span>Login as Ivan</span>
+				</button>
 			</form>
 		</div>
 	);

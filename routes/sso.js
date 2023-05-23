@@ -61,22 +61,36 @@ router.post('/register', enqueue("login", async (req, res) => {
 	res.contentType("application/json");
 	res.set('Cache-Control', 'no-store');
 
+	var firstname = req.body.firstname;
+	var lastname = req.body.lastname;
 	var username = req.body.username;
 	var password = req.body.password;
-	if(username && password) {
+	if(firstname && lastname && username && password) {
 		try {
-			await User.create({
-				firstname: "LOL",
-				lastname: "Ur dad",
-				username,
-				password: md5(password),
-				admin: 0,
-				quota: 0
+			let users = await User.findAll({
+				where: {
+					username: username
+				}
 			});
 
-			return res.status(200).json({
-				message: "Success"
-			});
+			if(users && users.length == 0) {
+				await User.create({
+					firstname: firstname,
+					lastname: lastname,
+					username,
+					password: md5(password),
+					admin: 0,
+					quota: 0
+				});
+
+				return res.status(200).json({
+					message: "Success"
+				});
+			} else {
+				return res.status(400).json({
+					message: "User already exists"
+				});
+			}
 		} catch(err) {
 			return res.status(500).json({
 				message: "Server Internal Error"
@@ -84,7 +98,7 @@ router.post('/register', enqueue("login", async (req, res) => {
 		}
 	} else {
 		return res.status(400).json({
-			message: "Username or password is empty"
+			message: "Firstname or lastname or username or password is empty"
 		});
 	}
 }));

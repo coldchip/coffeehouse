@@ -14,6 +14,8 @@ function RegisterPopup(props) {
 	const [success, setSuccess] = useState(null);
 	const [loading, setLoading] = useState(false);
 
+	const [firstname, setFirstname] = useState("");
+	const [lastname, setLastname] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,6 +36,8 @@ function RegisterPopup(props) {
 			fetch(`/api/v2/sso/register`, {
 				method: "POST",
 				body: new URLSearchParams({
+					firstname: firstname,
+					lastname: lastname,
 					username: username,
 					password: password
 				}).toString(),
@@ -43,11 +47,7 @@ function RegisterPopup(props) {
 			}).then((response) => {
 				var {status, body} = response;
 
-				setSuccess("Login success");
-
-				if(window.vuplex) {
-					window.vuplex.postMessage({type: "LOGIN_SUCCESS", token: body.token});
-				}
+				setSuccess("Register success");
 			}).catch((response) => {
 				var {status, body} = response;
 
@@ -86,6 +86,32 @@ function RegisterPopup(props) {
 						}}></i>
 					</div>
 				}
+				<div className={cssf(css, "form-group")}>
+					<input 
+						type="text" 
+						autocomplete="none"
+						id="firstname" 
+						className={cssf(css, `login-input text ${firstname.length > 0 && "active"}`)}
+						value={firstname}
+						onChange={e => setFirstname(e.target.value)} 
+					/>
+					<label for="firstname" className={cssf(css, "login-label text")}>
+						First Name
+					</label>
+				</div>
+				<div className={cssf(css, "form-group")}>
+					<input 
+						type="text" 
+						autocomplete="none"
+						id="lastname" 
+						className={cssf(css, `login-input text ${lastname.length > 0 && "active"}`)}
+						value={lastname}
+						onChange={e => setLastname(e.target.value)} 
+					/>
+					<label for="lastname" className={cssf(css, "login-label text")}>
+						Last Name
+					</label>
+				</div>
 				<div className={cssf(css, "form-group")}>
 					<input 
 						type="text" 
@@ -130,7 +156,13 @@ function RegisterPopup(props) {
 					<span>Register</span>
 				</button>
 
-				<a href="/login" className={cssf(css, "text")}>Login</a>
+				<hr />
+
+				<a href="/login">
+					<button type="button" className={cssf(css, `login-submit text mt-3`)}>
+						<span>Login</span>
+					</button>
+				</a>
 			</form>
 		</div>
 	);
