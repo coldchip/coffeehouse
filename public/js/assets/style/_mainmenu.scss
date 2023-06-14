@@ -1,0 +1,38 @@
+.mainmenu {
+	background: linear-gradient(
+		rgba(0, 0, 0, 0.2), 
+		rgba(0, 0, 0, 1)
+    ), url("./../img/bg.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .wrapper {
+		width: 600px;
+		border-radius: 10px;
+		border: 1px solid #4D4D4D;
+		padding: 30px;
+		color: white;
+		background: rgba(255, 255, 255, 0.1);
+
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    flex-direction: column;
+
+		button {
+			display: block;
+			width: 200px;
+			height: 50px;
+			font-weight: 600;
+		}
+	}
+}
