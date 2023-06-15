@@ -14,7 +14,7 @@ function MainMenu(props) {
 
 	function startGame() {
 		if(window.vuplex) {
-			window.vuplex.postMessage({type: "START_GAME"});
+			window.vuplex.postMessage({type: "START_GAME", token: "0"});
 		}
 	}
 
