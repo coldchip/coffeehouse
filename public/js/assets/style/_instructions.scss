@@ -22,9 +22,19 @@
 		padding: 30px;
 		color: white;
 		background: rgba(255, 255, 255, 0.1);
-		.title {
 
+		.header-wrapper {
+			display: flex;
+			justify-content: left;
+			align-items: center;
+			.back {
+			font-size: 28px;
+			}
+			.title {
+
+			}
 		}
+		
 		.data {
 
 		}

@@ -18,11 +18,15 @@ function MainMenu(props) {
 		if(window.vuplex) {
 			window.vuplex.postMessage({type: "START_GAME", token: "0"});
 		}
-		setHasStarted(true);
+		window.location.href = "ingame";
 	}
 
 	function instructions() {
-		window.location.href = "/instructions"
+		window.location.href = "/instructions";
+	}
+
+	function about() {
+		window.location.href = "/about";
 	}
 
 	var renderMainMenu = () => {
@@ -38,8 +42,7 @@ function MainMenu(props) {
 			return (
 				<>
 					<button className={cssf(css, "text mt-2")} onClick={startGame}>Play</button>
-
-					<button className={cssf(css, "text mt-2")} onClick={() => {}}>About</button>
+					<button className={cssf(css, "text mt-2")} onClick={about}>About</button>
 					<button className={cssf(css, "text mt-2")} onClick={instructions}>How to Play</button>
 					<button className={cssf(css, "text mt-2")}>Back</button>
 				</>

@@ -82,8 +82,9 @@ body, html {
 @import "modal/login";
 @import "modal/plan";
 
-
+/* need include newly created css without _ */
 @import "mainmenu";
+@import "ingame";
 @import "instructions";
 @import "about";
 
