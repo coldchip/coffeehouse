@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const db = require("./models");
 const User = db.user;
 const Token = db.token;
+const Score = db.score;
 
 class Player {
 	constructor(connection, token, username) {
@@ -112,6 +113,7 @@ function GameServer(multiplexer) {
 							model: User
 						}]
 					}).then((result) => {
+						console.log(result);
 						var username = result.user.username;
 						var p = new Player(client, data.Token, username);
 
@@ -158,6 +160,19 @@ function GameServer(multiplexer) {
 							});
 						}
 					}
+				}
+
+				if(data.Type == "OnUpdateScoreBoard") {
+					Token.findOne({
+						where: {
+							id: data.Token
+						},
+						include: [{
+							model: User
+						}]
+					}).then((result) => {
+						Score.create({ score: parseInt(data.score), userId: result.user.id });
+					});
 				}
 			} catch(e) {}
 		});

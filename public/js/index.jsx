@@ -10,6 +10,7 @@ import MainMenu from './components/MainMenu.jsx';
 import InGame from './components/InGame.jsx';
 import Instructions from './components/Instructions.jsx';
 import About from './components/About.jsx';
+import ScoreBoard from './components/ScoreBoard.jsx';
 
 
 import css from "./assets/style/index.scss";
@@ -31,6 +32,7 @@ function CoffeeHouse(props) {
 				<Route path="/ingame" element={<InGame />} />
 				<Route path="/instructions" element={<Instructions />} />
 				<Route path="/about" element={<About />} />
+				<Route path="/scoreboard" element={<ScoreBoard />} />
 				<Route path="*" element={<h1>404</h1>} />
 			</Routes>
 		</BrowserRouter>

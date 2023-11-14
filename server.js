@@ -45,6 +45,7 @@ const queue = require("./queue");
 const db = require("./models");
 const User = db.user;
 const Token = db.token;
+const Score = db.score;
 
 /* -------------- MULTIPLEXING ------------- */
 
@@ -102,7 +103,7 @@ const port = process.env.PORT || 5001;
 		await db.sequelize.authenticate();
 		await db.sequelize.sync();
 
-		let username = "ryan";
+		let username = "test";
 		let password = "e10adc3949ba59abbe56e057f20f883e";
 
 		await User.findOrCreate({
@@ -121,6 +122,16 @@ const port = process.env.PORT || 5001;
 
 		app.use('/api/v2/sso', ssoRoute);
 		app.use('/live', GameServerRoute);
+
+		app.get("/getscore", async (req, res) => {
+
+			var list = await Score.findAll({
+				include: [{
+					model: User
+				}]
+			});
+			res.json(list);
+		});
 
 		const compiler = webpack(require("./webpack.config.js"));
 		app.use(history());
