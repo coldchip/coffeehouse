@@ -32,7 +32,7 @@ function CoffeeHouse(props) {
 				<Route path="/ingame" element={<InGame />} />
 				<Route path="/instructions" element={<Instructions />} />
 				<Route path="/about" element={<About />} />
-				<Route path="/scoreboard" element={<ScoreBoard />} />
+				<Route path="/dashboard" element={<ScoreBoard />} />
 				<Route path="*" element={<h1>404</h1>} />
 			</Routes>
 		</BrowserRouter>

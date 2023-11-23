@@ -198,3 +198,36 @@ body, html {
 		}
 	}
 }
+
+.scoreboard {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+table {
+	margin: 0 0 30px;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th {
+	font-size: 40px;
+	border: 1px solid #4D4D4D;
+	color: white;
+}
+
+td {
+	padding: 0 50px;
+	font-weight: 500;
+	border-bottom: 1px solid #4D4D4D;
+	font-size: 30px;
+	color: white;
+}
+
+.lineText{
+	border: 1px solid #4D4D4D;
+}
+
+
+

@@ -128,7 +128,10 @@ const port = process.env.PORT || 5001;
 			var list = await Score.findAll({
 				include: [{
 					model: User
-				}]
+				}],
+				order: [
+		            ['score', 'ASC']
+		        ]
 			});
 			res.json(list);
 		});
